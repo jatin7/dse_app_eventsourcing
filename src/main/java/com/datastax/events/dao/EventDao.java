@@ -9,13 +9,16 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.datastax.demo.utils.Timer;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.PerHostPercentileTracker;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.policies.DCAwareRoundRobinPolicy;
+import com.datastax.driver.core.policies.PercentileSpeculativeExecutionPolicy;
 import com.datastax.events.model.Event;
 
 /**
@@ -27,6 +30,10 @@ public class EventDao {
 	private static Logger logger = LoggerFactory.getLogger(EventDao.class);
 	private Session session;
 
+	private static AtomicLong counter = new AtomicLong(0);
+	private static AtomicLong totalTime = new AtomicLong(0);
+	private static AtomicLong totalCount = new AtomicLong(0);
+
 	private static String keyspaceName = "datastax";
 	private static String eventTable = keyspaceName + ".eventsource";
 
@@ -37,16 +44,25 @@ public class EventDao {
 	
 	private PreparedStatement insertEvent;
 	private PreparedStatement selectByDate;
-	private AtomicLong counter = new AtomicLong(0);
 
 	public EventDao(String[] contactPoints) {
+
+		PerHostPercentileTracker tracker = PerHostPercentileTracker.builder(15000).build();
+		
+		PercentileSpeculativeExecutionPolicy policy =
+			    new PercentileSpeculativeExecutionPolicy(
+			        tracker,
+			        99.0,     // percentile
+			        2);       // maximum number of executions
 
 		Cluster cluster = Cluster.builder().addContactPoints(contactPoints)
 				.withLoadBalancingPolicy(DCAwareRoundRobinPolicy.builder()
 						.withUsedHostsPerRemoteDc(3)
 						.allowRemoteDCsForLocalConsistencyLevel()
 						.build())
+				.withSpeculativeExecutionPolicy(policy)
 				.build();
+	
 		
 		this.session = cluster.connect();
 
@@ -66,11 +82,16 @@ public class EventDao {
 		bs.bind(date, bucket, event.getId(), event.getAggregateType(), event.getHost(), event.getLoglevel(), event.getData(),
 				event.getTime(), event.getEventtype());
 		
+		Timer timer = new Timer();
 		session.execute(bs);
-
+		timer.end();
+		long time = timer.getTimeTakenMillis();
+		totalTime.addAndGet(time);
+		totalCount.addAndGet(1);
+			
 		long total = counter.incrementAndGet();
 		if (total % 10000 == 0) {
-			logger.info("Total events processed : " + total);
+			logger.info("Total events processed : " + total + " Latency : " + (totalTime.get()/totalCount.get()));			
 		}
 	}
 	
