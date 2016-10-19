@@ -99,6 +99,12 @@ var hosts =  hostCounts.map(f => (f._1))
 hosts.collect().foreach(println)
 ```
 
+To use spark sql - try the following with a valid date 
+```
+val results = sqlContext.sql("SELECT * from datastax.eventsource where date = '20161019'")
+ 
+results.take(5).foreach(println)
+```
 
 To remove the tables and the schema, run the following.
 
