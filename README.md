@@ -104,6 +104,14 @@ To use spark sql - try the following with a valid date
 val results = sqlContext.sql("SELECT * from datastax.eventsource where date = '20161019'")
  
 results.take(5).foreach(println)
+
+val results = sqlContext.sql("SELECT * from datastax.eventsource where time > '2016-10-22 16:18:07' ");
+
+results.take(5).foreach(println)
+
+val results = sqlContext.sql("SELECT * from datastax.eventsource where time > '2016-10-22 16:18:07' and time < '2016-10-23 16:18:07'");
+
+results.count
 ```
 
 To remove the tables and the schema, run the following.
