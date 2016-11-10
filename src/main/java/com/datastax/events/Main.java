@@ -55,7 +55,7 @@ public class Main {
 				queue.put(EventGenerator.createRandomEvent(noOfEvents, noOfDays));
 
 				if (EventGenerator.eventCounter.get() % 10000 == 0){
-					logger.info("Created " + EventGenerator.eventCounter.get() +  "events");
+					logger.info("Created " + EventGenerator.eventCounter.get() +  " events");
 				}
 				
 				if (EventGenerator.eventCounter.get() % 100000 == 0){
@@ -71,7 +71,6 @@ public class Main {
 		
 		Random r = new Random();
 		 
-		
 		while(true){
 			try{
 				queue.put(EventGenerator.createRandomEventNow());
@@ -81,14 +80,19 @@ public class Main {
 				double d = r.nextGaussian()*-1d;
 				//Create an random event
 				
-				if (d*1000 < 1){
+				int test = new Double(Math.random()*10).intValue();
+				
+				if (d*test < 1){
 					logger.info("Creating random events");
 					int someNumber = new Double(Math.random()*10).intValue();
 					
 					for (int i=0; i < someNumber; i++){
 						queue.put(EventGenerator.createRandomEventNow());
 						
-						sleep(new Double(Math.random()*100).intValue());
+						
+						if (new Double(Math.random()*100).intValue() > 2){
+							sleep(new Double(Math.random()*100).intValue());
+						}
 					}
 				}
 				

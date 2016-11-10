@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.datastax.demo.utils.Timer;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Host;
 import com.datastax.driver.core.PerHostPercentileTracker;
+import com.datastax.driver.core.PercentileTracker;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -44,10 +46,10 @@ public class EventDao {
 	
 	private PreparedStatement insertEvent;
 	private PreparedStatement selectByDate;
+	private PerHostPercentileTracker tracker = PerHostPercentileTracker.builder(15000).build();
 
 	public EventDao(String[] contactPoints) {
 
-		PerHostPercentileTracker tracker = PerHostPercentileTracker.builder(15000).build();
 		
 		PercentileSpeculativeExecutionPolicy policy =
 			    new PercentileSpeculativeExecutionPolicy(
@@ -82,16 +84,14 @@ public class EventDao {
 		bs.bind(date, bucket, event.getId(), event.getAggregateType(), event.getHost(), event.getLoglevel(), event.getData(),
 				event.getTime(), event.getEventtype());
 		
-		Timer timer = new Timer();
+		
 		session.execute(bs);
-		timer.end();
-		long time = timer.getTimeTakenMillis();
-		totalTime.addAndGet(time);
-		totalCount.addAndGet(1);
 			
 		long total = counter.incrementAndGet();
 		if (total % 10000 == 0) {
-			logger.info("Total events processed : " + total + " Latency : " + (totalTime.get()/totalCount.get()));			
+			logger.info("Total events processed : " + total );
+			logger.info("Total events processed : " + total );
+			
 		}
 	}
 	
