@@ -27,6 +27,7 @@ import com.datastax.events.model.Event;
 public class EventDao {
 
 	private static Logger logger = LoggerFactory.getLogger(EventDao.class);
+	private Cluster cluster;
 	private Session session;
 
 	private static AtomicLong counter = new AtomicLong(0);
@@ -54,7 +55,7 @@ public class EventDao {
 			        99.0,     // percentile
 			        2);       // maximum number of executions
 
-		Cluster cluster = Cluster.builder().addContactPoints(contactPoints)
+		cluster = Cluster.builder().addContactPoints(contactPoints)
 				.withLoadBalancingPolicy(DCAwareRoundRobinPolicy.builder()
 						.withUsedHostsPerRemoteDc(3)
 						.allowRemoteDCsForLocalConsistencyLevel()
@@ -143,6 +144,11 @@ public class EventDao {
 		event.setTime(row.getTimestamp("time"));
 		event.setId(row.getUUID("id"));
 		return event;
+	}
+
+	public void close() {
+		session.close();
+		cluster.close();
 	}	
 
 }

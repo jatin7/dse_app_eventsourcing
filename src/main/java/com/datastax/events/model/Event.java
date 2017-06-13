@@ -54,4 +54,10 @@ public class Event {
 	public void setHost(String host) {
 		this.host = host;
 	}
+	@Override
+	public String toString() {
+		return "Event [id=" + id + ", aggregateType=" + aggregateType + ", host=" + host + ", loglevel=" + loglevel
+				+ ", data=" + data + ", time=" + time + ", eventtype=" + eventtype + "]";
+	}
+	
 }

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.datastax.demo</groupId>
-	<artifactId>datastax-eventsourcing</artifactId>
+	<artifactId>datastax-eventsourcing-kafka</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -71,6 +71,11 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>0.10.2.1</version>
+</dependency>
 	</dependencies>
 
 	<build>
