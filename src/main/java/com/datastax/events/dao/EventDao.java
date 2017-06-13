@@ -9,12 +9,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.datastax.demo.utils.Timer;
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.Host;
 import com.datastax.driver.core.PerHostPercentileTracker;
-import com.datastax.driver.core.PercentileTracker;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -33,8 +30,8 @@ public class EventDao {
 	private Session session;
 
 	private static AtomicLong counter = new AtomicLong(0);
-	private static AtomicLong totalTime = new AtomicLong(0);
-	private static AtomicLong totalCount = new AtomicLong(0);
+//	private static AtomicLong totalTime = new AtomicLong(0);
+//	private static AtomicLong totalCount = new AtomicLong(0);
 
 	private static String keyspaceName = "datastax";
 	private static String eventTable = keyspaceName + ".eventsource";
@@ -89,9 +86,7 @@ public class EventDao {
 			
 		long total = counter.incrementAndGet();
 		if (total % 10000 == 0) {
-			logger.info("Total events processed : " + total );
-			logger.info("Total events processed : " + total );
-			
+			logger.info("Total events processed : " + total );			
 		}
 	}
 	
