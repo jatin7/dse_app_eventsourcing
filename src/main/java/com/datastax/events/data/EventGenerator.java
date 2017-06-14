@@ -23,7 +23,7 @@ public class EventGenerator	{
 	private static String host = "100.1.2.";
 	public static AtomicLong eventCounter = new AtomicLong(0);
 	
-	public static Event createRandomEvent(int noOfEvents, int noOfDays) {
+	public static Event createRandomEvent(long noOfEvents, int noOfDays) {
 		
 		long noOfMillis = noOfDays * DAY_MILLIS;
 		

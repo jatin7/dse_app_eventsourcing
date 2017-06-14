@@ -36,9 +36,9 @@ public class Main {
 		ExecutorService executor = Executors.newFixedThreadPool(noOfThreads);
 		EventService service = new EventService();
 		
-		int noOfEvents = Integer.parseInt(noOfEventsStr);
+		long noOfEvents = Long.parseLong(noOfEventsStr);
 		
-		int totalEvents = noOfEvents*noOfDays;
+		long totalEvents = noOfEvents*noOfDays;
 		logger.info("Writing " + totalEvents + " historic events");
 
 		for (int i = 0; i < noOfThreads; i++) {
@@ -49,7 +49,7 @@ public class Main {
 		}					
 		
 		Timer timer = new Timer();
-		for (int i = 0; i < totalEvents; i++) {
+		for (long i = 0; i < totalEvents; i++) {
 			
 			try{
 				queue.put(EventGenerator.createRandomEvent(noOfEvents, noOfDays));

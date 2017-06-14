@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.datastax.demo</groupId>
-	<artifactId>datastax-eventsourcing-kafka</artifactId>
+	<artifactId>datastax-eventsourcing</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -12,12 +12,12 @@
 		<dependency>
 			<groupId>com.datastax.cassandra</groupId>
 			<artifactId>cassandra-driver-core</artifactId>
-			<version>3.1.0</version>
+			<version>2.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.datastax.cassandra</groupId>
 			<artifactId>cassandra-driver-mapping</artifactId>
-			<version>3.1.0</version>
+			<version>2.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hdrhistogram</groupId>
