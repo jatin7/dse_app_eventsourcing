@@ -44,23 +44,14 @@ public class EventDao {
 	
 	private PreparedStatement insertEvent;
 	private PreparedStatement selectByDate;
-	private PerHostPercentileTracker tracker = PerHostPercentileTracker.builder(15000).build();
 
 	public EventDao(String[] contactPoints) {
-
-		
-		PercentileSpeculativeExecutionPolicy policy =
-			    new PercentileSpeculativeExecutionPolicy(
-			        tracker,
-			        99.0,     // percentile
-			        2);       // maximum number of executions
 
 		cluster = Cluster.builder().addContactPoints(contactPoints)
 				.withLoadBalancingPolicy(DCAwareRoundRobinPolicy.builder()
 						.withUsedHostsPerRemoteDc(3)
 						.allowRemoteDCsForLocalConsistencyLevel()
 						.build())
-				.withSpeculativeExecutionPolicy(policy)
 				.build();
 	
 		
