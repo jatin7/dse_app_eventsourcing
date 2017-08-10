@@ -14,7 +14,7 @@ echo 'Creating Cores'
 sudo dsetool create_core datastax.eventsource generateResources=true
 
 echo 'Starting load data -> ~/loader.log'
-sudo nohup mvn clean compile exec:java -Dexec.mainClass="com.datastax.events.Main"  -DcontactPoints=node0 -DnoOfEvents=10000000 > ~/loader.log &
+sudo nohup mvn clean compile exec:java -Dexec.mainClass="com.datastax.events.Main"  -DcontactPoints=node0 -DnoOfEvents=10000000 > /tmp/loader.log &
 
 sleep 2
 
