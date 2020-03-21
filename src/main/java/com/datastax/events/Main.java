@@ -25,7 +25,7 @@ public class Main {
 
 	public Main() {
 
-		String noOfEventsStr = PropertyHelper.getProperty("noOfEvents", "100000");
+		String noOfEventsStr = PropertyHelper.getProperty("noOfEvents", "10000");
 		int noOfDays = Integer.parseInt(PropertyHelper.getProperty("noOfDays", "32"));
 
 		BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(100);

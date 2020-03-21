@@ -25,7 +25,7 @@ public abstract class RunCQLFile {
 		
 		String contactPointsStr = System.getProperty("contactPoints");
 		if (contactPointsStr == null) {
-			contactPointsStr = "127.0.0.1";
+			contactPointsStr = "192.168.1.66";
 		}
 
 		cluster = Cluster.builder().addContactPoints(contactPointsStr.split(",")).build();

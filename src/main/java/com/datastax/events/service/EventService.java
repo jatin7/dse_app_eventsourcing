@@ -21,7 +21,7 @@ public class EventService {
 	private AtomicLong counter = new AtomicLong(0);
 
 	public EventService() {
-		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "localhost");
+		String contactPointsStr = PropertyHelper.getProperty("contactPoints", "192.168.1.66");
 		this.dao = new EventDao(contactPointsStr.split(","));
 	}
 

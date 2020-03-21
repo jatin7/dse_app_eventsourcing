@@ -49,6 +49,8 @@ We can also use cql to query using the Solr query from DSE Search
 Get all LOGIN Events from 9th Aug 2016 at 12:30 to 11th Aug 2016 at 12:30 
 
 	select * from datastax.eventsource where solr_query = '{"q":"eventtype:LOGIN", "fq": "time:[2016-08-09T12:30:00.000Z TO 2016-08-11T12:30:00.000Z]", "sort":"time desc"}' limit 10000;
+	
+    select * from datastax.eventsource WHERE time > '2020-03-11T04:30:00.000Z' ALLOW FILTERING;
 
 To use Spark, using DSE we can just 'dse spark' to use the repl.
 

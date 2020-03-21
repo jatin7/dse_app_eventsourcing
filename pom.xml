@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.datastax.demo</groupId>
-	<artifactId>datastax-eventsourcing</artifactId>
+	<artifactId>dse_app_eventsourcing</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
